@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.web;
 
 
 import org.slf4j.Logger;
+import ru.javawebinar.topjava.dao.MealDaoImpl;
 import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 
@@ -21,11 +22,13 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class MealServlet extends HttpServlet {
     private static final Logger LOG = getLogger(MealServlet.class);
 
+    private MealDaoImpl mealDao = new MealDaoImpl();
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         LOG.debug("redirect to meals");
 
-        List<MealWithExceed> mealWithExceedList = MealsUtil.getWithExceeded(MealsUtil.getMeals(), 2000);
+        List<MealWithExceed> mealWithExceedList = MealsUtil.getWithExceeded(mealDao.list(), 2000);
         request.setAttribute("mealList", mealWithExceedList);
 
         request.getRequestDispatcher("meals.jsp").forward(request, response);
