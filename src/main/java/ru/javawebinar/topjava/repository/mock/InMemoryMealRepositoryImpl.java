@@ -1,11 +1,16 @@
 package ru.javawebinar.topjava.repository.mock;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +24,8 @@ import java.util.stream.Collectors;
  */
 @Repository
 public class InMemoryMealRepositoryImpl implements MealRepository {
+    private static final Logger LOG = LoggerFactory.getLogger(InMemoryMealRepositoryImpl.class);
+
     private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
 
@@ -51,10 +58,22 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getAll() {
-        List<Meal> mealList = repository.values().stream().filter(meal -> meal.getUserId() == AuthorizedUser.id())
+        return getAll(null, null, null, null);
+    }
+
+    @Override
+    public List<Meal> getAll(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        List<Meal> mealList = repository.values().stream()
+                .filter(meal -> meal.getUserId() == AuthorizedUser.id())
+                .filter(meal -> DateTimeUtil.isBetween(meal.getDate()
+                        , startDate == null ? LocalDate.MIN : startDate
+                        , endDate == null ? LocalDate.MAX : endDate))
+                .filter(meal -> DateTimeUtil.isBetween(meal.getTime()
+                        , startTime == null ? LocalTime.MIN : startTime
+                        , endTime == null ? LocalTime.MAX : endTime))
                 .sorted((o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()))
                 .collect(Collectors.toList());
-        return mealList == null ? Collections.emptyList() : mealList;
+        return mealList;
     }
 }
 

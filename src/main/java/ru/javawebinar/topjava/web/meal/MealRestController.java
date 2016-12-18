@@ -8,6 +8,8 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -24,6 +26,11 @@ public class MealRestController {
     public List<MealWithExceed> getAll() {
         LOG.info("getAll");
         return service.getAll();
+    }
+
+    public List<MealWithExceed> getAll(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        LOG.info("getAll");
+        return service.getAll(startDate, endDate, startTime, endTime);
     }
 
     public void delete(int id) {

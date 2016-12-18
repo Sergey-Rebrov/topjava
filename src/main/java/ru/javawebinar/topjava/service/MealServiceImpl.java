@@ -12,6 +12,8 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -43,5 +45,10 @@ public class MealServiceImpl implements MealService {
     @Override
     public List<MealWithExceed> getAll() {
         return MealsUtil.getWithExceeded(repository.getAll(), AuthorizedUser.getCaloriesPerDay());
+    }
+
+    @Override
+    public List<MealWithExceed> getAll(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        return MealsUtil.getWithExceeded(repository.getAll(startDate, endDate, startTime, endTime), AuthorizedUser.getCaloriesPerDay());
     }
 }
