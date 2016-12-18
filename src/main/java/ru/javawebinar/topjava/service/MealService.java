@@ -16,7 +16,7 @@ public interface MealService {
 
     Meal save(Meal meal);
 
-    void delete(int id) throws NotFoundException;
+    Meal delete(int id) throws NotFoundException;
 
     Meal get(int id) throws NotFoundException;
 

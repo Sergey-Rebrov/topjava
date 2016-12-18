@@ -11,7 +11,6 @@ import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,9 +45,10 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public Meal delete(int id) {
         if (repository.get(id).getUserId() == AuthorizedUser.id())
-            repository.remove(id);
+            return repository.remove(id);
+        return null;
     }
 
     @Override

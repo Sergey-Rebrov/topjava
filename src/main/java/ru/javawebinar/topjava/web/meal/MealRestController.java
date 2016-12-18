@@ -33,9 +33,9 @@ public class MealRestController {
         return service.getAll(startDate, endDate, startTime, endTime);
     }
 
-    public void delete(int id) {
+    public Meal delete(int id) {
         LOG.info("delete " + id);
-        service.delete(id);
+        return service.delete(id);
     }
 
     public Meal get(int id) {
