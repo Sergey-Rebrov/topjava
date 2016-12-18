@@ -39,7 +39,7 @@
             <dt>EndTime:</dt>
             <dd><input type="time" value="" name="endTime"></dd>
         </dl>
-        <button type="submit">Filter</button>
+        <button type="submit" name="filter">Filter</button>
     </form>
 
     <table border="1" cellpadding="8" cellspacing="0">

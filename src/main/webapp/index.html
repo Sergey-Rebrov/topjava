@@ -10,6 +10,20 @@
 <ul>
     <li><a href="users">User List</a></li>
     <li><a href="meals">Meal List</a></li>
+    <li>
+        <form method="post" action="users">
+            <dl>
+                <dt>Select User</dt>
+                <dd><label>
+                    <select name="user">
+                        <option value="1">User 1</option>
+                        <option value="2">User 2</option>
+                    </select>
+                </label></dd>
+            </dl>
+            <button type="submit" name="filter">Select</button>
+        </form>
+    </li>
 </ul>
 </body>
 </html>

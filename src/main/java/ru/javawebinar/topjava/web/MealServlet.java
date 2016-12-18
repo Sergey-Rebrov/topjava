@@ -46,13 +46,14 @@ public class MealServlet extends HttpServlet {
         String endDate = request.getParameter("endDate");
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
-        if (!startDate.isEmpty() || !endDate.isEmpty() || !startTime.isEmpty() || !endTime.isEmpty())
+        String filterButton = request.getParameter("filter");
+        if (filterButton != null)
         {
             request.setAttribute("meals", mealController
-                            .getAll(startDate.isEmpty() ? null : LocalDate.parse(startDate)
-                                    , endDate.isEmpty() ? null : LocalDate.parse(endDate)
-                                    , startTime.isEmpty() ? null : LocalTime.parse(startTime)
-                                    , endTime.isEmpty() ? null : LocalTime.parse(endTime)));
+                            .getAll(startDate.isEmpty() ? null : LocalDate.parse(startDate),
+                                    endDate.isEmpty() ? null : LocalDate.parse(endDate),
+                                    startTime.isEmpty() ? null : LocalTime.parse(startTime),
+                                    endTime.isEmpty() ? null : LocalTime.parse(endTime)));
             request.getRequestDispatcher("/meals.jsp").forward(request, response);
         }
 
