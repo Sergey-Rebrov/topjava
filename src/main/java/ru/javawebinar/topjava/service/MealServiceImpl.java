@@ -34,7 +34,7 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public void delete(int id) {
-        checkNotFoundWithId(repository.get(id), id);
+        repository.delete(id);
     }
 
     @Override
