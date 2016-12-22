@@ -59,7 +59,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
 
         return getAll().stream()
                 .filter(user -> user.getEmail().contains(email))
-                .findFirst().get();
+                .findFirst().orElse(null);
     }
 
     public static void main(String[] args) {
