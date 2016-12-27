@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.DbPopulator;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -82,6 +83,24 @@ public class MealServiceTest {
         Meal newMeal = service.save(meal, USER_ID);
         meal.setId(newMeal.getId());
         MealTestData.MATCHER.assertCollectionEquals(Arrays.asList(meal, MEAL2, MEAL1), service.getAll(USER_ID));
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testNotFoundDelete() throws Exception {
+        service.delete(MEAL1_ID, ADMIN_ID);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testNotFoundGet() throws Exception {
+        service.get(MEAL1_ID, ADMIN_ID);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testNotFoundUpdate() throws Exception {
+        Meal meal = new Meal(MEAL1);
+        meal.setDescription("ЗЗЗЗЗавтрак");
+        meal.setCalories(111);
+        service.update(meal, ADMIN_ID);
     }
 
 }
