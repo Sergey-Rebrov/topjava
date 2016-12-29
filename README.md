@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Sergey-Rebrov/topjava.svg?branch=master)](https://travis-ci.org/Sergey-Rebrov/topjava)
+
 Java Enterprise Online Project 
 ===============================
 Наиболее востребованные технологии /инструменты / фреймворки Java Enterprise:
