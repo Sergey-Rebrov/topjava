@@ -1,5 +1,8 @@
 Java Enterprise Online Project 
 ===============================
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a1c1c846a11e4824ac337d710c8d12c0)](https://www.codacy.com/app/sergey-rebrov/topjava?utm_source=github.com&utm_medium=referral&utm_content=Sergey-Rebrov/topjava&utm_campaign=badger)
+
 Наиболее востребованные технологии /инструменты / фреймворки Java Enterprise:
 Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery + plugins.
 
