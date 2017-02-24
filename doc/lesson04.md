@@ -3,8 +3,6 @@
 ### <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFfkxqbVpwZUd5anQ2TXE4bm5HbXhtVmkxMUxFSjhNQ1hXYVVTTTZEMzkzN2s">Материалы занятия (скачать все патчи можно через Download папки patch)</a>
 
 ### ![error](https://cloud.githubusercontent.com/assets/13649199/13672935/ef09ec1e-e6e7-11e5-9f79-d1641c05cbe6.png) Правки в проекте
-#### Apply 0-fix.patch
-
 > - В SQL операторах ключевые слова пишут uppercase а таблицы/колонки - lowercase
 > - Небольшая оптимизация `InMemoryMealRepositoryImpl.save()`
 > - Поправил `SpringMain` (при создании пользователя id проверяется на null)
@@ -31,12 +29,12 @@
 ## Занятие 4:
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 2. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFU005ZzBNZmZnTVU">Методы улучшения качества кода</a>
 
-> - Подключите сверху <a href="https://github.com/JavaWebinar/topjava09/blob/master/README.md">README.md</a> (<a href="https://raw.githubusercontent.com/JavaWebinar/topjava09/master/README.md">Raw</a>) своего проекта интергацию с
+> - Сделайте интеграцию своего репозитория и подключите сверху своего <a href="https://github.com/JavaWebinar/topjava09/blob/master/README.md">README.md</a> (<a href="https://raw.githubusercontent.com/JavaWebinar/topjava09/master/README.md">Raw</a>) интергацию с
 >   - <a href="https://www.codacy.com">Codacy Check code</a>
 >   - <a href="https://dependencyci.com/">Continuously Test Your Dependencies</a>
 >   - <a href="https://travis-ci.org/">Сборку и тесты Travis</a>
 > - Пофиксил в патче <a href="https://www.codacy.com/app/javawebinar/topjava09/dashboard">Codacy Issues</a> (проверку assert в JUnit отключил в настройках)
-> - Перенес проверки пердусловий `Assert` из `InMemory` репозиториев в сервисы
+> - Перенес проверки предусловий `Assert` из `InMemory` репозиториев в сервисы
 > - Добавил конфигурацию `.travis.yml` 
 >   - <a href="https://docs.travis-ci.com/user/languages/java/">Сборка Java проекта</a>
 >   - <a href="https://dzone.com/articles/travis-ci-tutorial-java-projects">Travis CI Tutorial</a>
@@ -60,8 +58,11 @@
 
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 5. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFVWZYcHoyUF9qX2M">ORM. Hibernate. JPA.</a>
 
+> - В HW4 дал ссылки: для Hibernate 5.x Time API конверторы уже не нужны.
 > - ВНИМАНИЕ: патч меняет `postgres.properties`, в котором у вас свои креденшелы к базе.
 > - Тесты и приложение ломаются. `MealServiceTest` починится после выполнения HW04 (`JpaMealRepositoryImpl`)
+
+<a href="https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model">Entity</a>- класс (объект Java), который в ORM маппится в таблицу DB.
 
 #### **Apply 6-add-jpa.patch**
 
@@ -71,6 +72,7 @@
 
 -  <a href="http://ru.wikipedia.org/wiki/ORM">ORM</a>.
 -  <a href="http://habrahabr.ru/post/265061/">JPA и Hibernate в вопросах и ответах</a>
+-  <a href="https://easyjava.ru/data/jpa/jpa-entitymanager-upravlyaem-sushhnostyami/">JPA EntityManager: управляем сущностями</a>
 -  <a href="http://www.quizful.net/post/Hibernate-3-introduction-and-writing-hello-world-application">Hibernate: введение и написания Hello world приложения</a>
 -  <a href="http://en.wikibooks.org/wiki/Java_Persistence/Mapping">Mapping</a>. Описания модели Hibernate (hbm.xml/annotation)
 -  <a href="https://ru.wikipedia.org/wiki/Hibernate_(библиотека)">Hibernate</a>. Другие ORM: <a href="http://en.wikipedia.org/wiki/TopLink">TopLink</a>, <a href="http://en.wikipedia.org/wiki/EclipseLink">EсlipseLink</a>, <a href="http://en.wikipedia.org/wiki/Ebean">EBean</a> (<a href="http://www.playframework.com/documentation/2.2.x/JavaEbean">used in Playframework</a>).
@@ -95,10 +97,11 @@
 -  Подключаем транзакции. <a href="http://www.tutorialspoint.com/spring/spring_transaction_management.htm">Spring Transaction Management</a>
 -  <a href="https://jira.spring.io/browse/DATAJPA-601">readOnly и Propagation.SUPPORTS</a>
 -  <a href="http://habrahabr.ru/post/232381/">@Transactional в тестах. Настройка EntityManagerFactory</a>
--  <a href="https://www.youtube.com/watch?v=dFASbaIG-UU"> Как начинающему Java-разработчику подружиться со своей базой данных?</a>
+- <a href="https://www.youtube.com/watch?v=dFASbaIG-UU">Видео: Вячеслав Круглов — Как начинающему Java-разработчику подружиться со своей базой данных?</a>
 -  Справочник:
    - <a href="http://www.youtube.com/watch?v=YzOTZTt-PR0">Видео: Николай Алименков — Босиком по граблям Hibernate</a>
-   - <a href="https://www.youtube.com/watch?v=dFASbaIG-UU">Видео: Вячеслав Круглов — Как начинающему Java-разработчику подружиться со своей базой данных?</a>
+   - <a href="https://www.ibm.com/developerworks/ru/library/j-ts2/">Стратегии работы с транзакциями</a>
+   - <a href="https://easyjava.ru/tag/jpa/">Примеры работы с JPA</a>
    - <a href="http://www.byteslounge.com/tutorials/spring-transaction-propagation-tutorial">Spring transaction propagation tutorial</a>
    - <a href="https://dzone.com/refcardz/getting-started-with-jpa">Getting Started with JPA</a>
    - <a href="http://stackoverflow.com/questions/8994864/how-would-i-specify-a-hibernate-pattern-annotation-using-a-regular-expression">Validate by RegExp</a>
@@ -106,6 +109,7 @@
    - <a href="https://easyjava.ru/category/data/jpa/">Разделы по Java Persistence API</a>
    - <a href="http://hibernate.org/">Hibernate</a>
    - <a href="http://docs.spring.io/spring-framework/docs/4.0.x/spring-framework-reference/html/transaction.html">Spring Framework transaction management</a>
+   - <a href="http://www.baeldung.com/persistence-with-spring-series/">Spring Persistence Tutorial</a>
    - <a href="http://www.objectdb.com/java/jpa/persistence/managed#Entity_Object_Life_Cycle">Working with JPA Entity Objects</a>
    - <a href="http://www.ibm.com/developerworks/ru/library/j-ts1/">Стратегии работы с транзакциями: Распространенные ошибки</a>
    - <a href="http://habrahabr.ru/post/208400/">Принципы работы СУБД. MVCC</a>
@@ -144,17 +148,25 @@ Hibernate (как любая ORM) реализует маппинг таблиц
 
 > Чем отличается `@Column(nullable = false)`  от  `@NotNull` и есть ли необходимость указывать обе аннотации ?
 
-`@Column(nullable = false)` это атрибуты колонки таблицы базы. Те если таблица не создана и есть опции JPA генерации таблиц по entity (будет в 7-м уроке), то Hibernate сделает  колонку NOT NULL,  в которую база не даст вставить null. `@NotNull` - это валидация, которая происходит в приложении перед вставкой в базу. Если колонка ненулевая, то `NOT NULL` объязательна. Валидация- опциональна.
+`@Column(nullable = false)` это атрибуты колонки таблицы базы. Те если таблица не создана и есть опции JPA генерации таблиц по entity (будет в 7-м уроке), то Hibernate сделает  колонку NOT NULL,  в которую база не даст вставить null. `@NotNull` - это валидация, которая происходит в приложении перед вставкой в базу. Если колонка ненулевая, то `NOT NULL` объязательна. Валидация- опциональна. Также см.
+<a href="http://stackoverflow.com/questions/7439504/">@NotNull vs @Column(nullable = false)</a>
 
 > почему мы в в бине `entityManagerFactory` не указали диалект базы данных?
 
 Он автоматически определяется из `DataSource` драйвера: http://stackoverflow.com/a/39817822/548473
+
+> В чем разница между `persist` и `merge`
+
+<a href="http://stackoverflow.com/questions/1069992/jpa-entitymanager-why-use-persist-over-merge">Подробный ответ со Stackovwrflow</a> с объяснением разницы. Упрощенно:
+  - `merge`, в отличии от `persist`, если entity нет в текущей сессии, делает запрос в базу данных
+  - entity, переданный в `merge` не меняется и нужно использовать возвращаемый результат
 
 --------------------
 
 ## ![hw](https://cloud.githubusercontent.com/assets/13649199/13672719/09593080-e6e7-11e5-81d1-5cb629c438ca.png) Домашнее задание HW4
 
 - Сделать из `Meal` Hibernate entity
+  - <a href="http://stackoverflow.com/questions/17137307">Hibernate Validator: @NotNull, @NotEmpty, @NotBlank</a>
 - Имплементировать и протестировать `JpaMealRepositoryImpl`
   -  IDEA не понимает в `@NamedQuery` `..  m.dateTime BETWEEN ..`. На функциональность это не влияет.
   - Работа с LocalDate/Time уже включена `hibernate-core` 5.2.x:  
@@ -181,6 +193,7 @@ Hibernate (как любая ORM) реализует маппинг таблиц
 - В JPQL запросах можно писать: `m.user.id=:userId`
 - При реализации `JpaMealRepositoryImpl` предпочтительно не использовать `try-catch` в логике реализации. Но если очень хочется, то ловить только специфичекские эксепшены (пр. `NoResultException`), чтобы, например, при отсутствии коннекта к базе приложение отвечало адекватно.
 - Мы будем смотреть генерацию db скриптов из модели, для корректоной генерации нужно в `Meal` добавить `uniqueConstraints`
+- <a href="https://en.wikibooks.org/wiki/Java_Persistence/ManyToOne">Реализация ManyToOne</a>
 
 ## Выпускной проект
 - Новая информация плохо оседает в голове, когда дается в виде патчей, поэтому, чтобы она стала "твоей" нужно еще раз проделать это самостоятельно.

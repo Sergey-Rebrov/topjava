@@ -21,6 +21,10 @@
 - <a href="https://en.wikibooks.org/wiki/Java_Persistence/Identity_and_Sequencing#Sequence_Strategies">Sequence Strategies</a>
 - <a href="http://stackoverflow.com/questions/9470442/why-is-the-hibernate-default-generator-for-postgresql-sequencegenerator-not?lq=1">SequenceGenerator/IdentityGenerator in PostgreSql</a>
 
+`EntityManager` это по сути прокси обертка над Hibernate Session, которая создается каждый раз при открытии транзакции. Также еще есть редкий случай ручного управления `@PersistenceContext(type = PersistenceContextType.EXTENDED)`, когда он используется в нескольних транзакциях (long-running session or session-per-conversation):
+- <a href="https://techblog.bozho.net/spring-and-persistencecontexttype-extended/">Spring and PersistenceContextType.EXTENDED</a>
+- <a href="http://stackoverflow.com/questions/2547817/what-is-the-difference-between-transaction-scoped-persistence-context-and-extend">Transaction-scoped vs Extended Persistence</a>
+
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 2. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFNFMyMGJCZWE4elk">HW4: JPA. @Rule</a>
 #### Apply 1-HW4.patch
 
@@ -54,6 +58,8 @@
 >  - поменять в окне Maven Projects профиль (Profiles) на `hsqldb` и сделать `Reimport All Maven Projects` (1я кнопка)
 >  - поменять `Profiles.ACTIVE_DB = HSQLDB`
 >  - почистить проект `mvn clean` (фаза `clean` не выполняется автоматически, чтобы каждый раз не перекомпилировать весь проект)
+
+`Profiles.ACTIVE_DB` и `Profiles.DB_IMPLEMENTATION` будут задавать активные профили при запуске приложения (для тестов задаются через `@ActiveProfiles`).
 
 > Вопрос: почему после этого патча не поднимется Spring при запуске приложения в Tomcat?
  
@@ -100,7 +106,7 @@
    -  Починка JUnit: <a href="http://stackoverflow.com/questions/10013288/another-unnamed-cachemanager-already-exists-in-the-same-vm-ehcache-2-5">один кэш на JVM</a>
 
 ## ![question](https://cloud.githubusercontent.com/assets/13649199/13672858/9cd58692-e6e7-11e5-905d-c295d2a456f1.png) Ваши вопросы
-> В <a href="https://github.com/spring-projects/spring-petclinic/tree/master/src/main/java/org/springframework/samples/petclinic/repository/springdatajpa">spring-petclinic</a> `DataJpa` реализована без без дополнительных классов. В таком виде как у них, spring data смотрится, конечно, намного лаконичней других реализаций, но у нас получилось  вдвое больше кода, чем с тем же jpa или jdbc. Плюс только пожалуй в том, что query находятся прямо в репозитории, а  не где-то там в другом пакете. Так что получается, spring data лучше подходит для простейших crud без всяких "фишек"? или в чем его достоинство для больших и сложных проектов?
+> В <a href="https://github.com/spring-projects/spring-petclinic/tree/master/src/main/java/org/springframework/samples/petclinic">spring-petclinic</a> `DataJpa` реализована без без дополнительных классов. В таком виде как у них, spring data смотрится, конечно, намного лаконичней других реализаций, но у нас получилось  вдвое больше кода, чем с тем же jpa или jdbc. Плюс только пожалуй в том, что query находятся прямо в репозитории, а  не где-то там в другом пакете. Так что получается, spring data лучше подходит для простейших crud без всяких "фишек"? или в чем его достоинство для больших и сложных проектов?
 
 Достоинство DATA-JPA по сравнению например с JPA: есть типизация, готовые реализации типовых методов CRUD а также paging, data-common. Мы можем переключить реализацию JPA, например, на mongoDb (`PagingAndSortingRepository`, от которого наследуется `JpaRepository` находится в `spring-data-common`).
 Соответственно его методы будут поддерживаться всеми реализациями `spring-data-common`, JPA одна из них и пр. Подробнее о них есть в видео <a href="http://jeeconf.com/archive/jeeconf-2013/materials/spring-data/">Spring Data – новый взгляд на persistence</a>.
@@ -115,12 +121,16 @@
 
 Будем делать на следующем уроке
 
+ > Почему при  выборе профиля hsqldb в IDEA `spring-db.xml` профиле posgres краснеют параметры
+ 
+ IDEA не может определить параметры `org.apache.tomcat.jdbc.pool.DataSource`, потому что в профиле hsqldb этого класса (модуля `tomcat-jdbc`) нет в classpath
+ 
 --------------------
 
 ## ![hw](https://cloud.githubusercontent.com/assets/13649199/13672719/09593080-e6e7-11e5-81d1-5cb629c438ca.png) ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFZFdWWFdwams0eGM">Домашнее задание HW05</a>
 
 - 1 Имплементировать `DataJpaMealRepositoryImpl`
-- 2 Разделить реализации Repository по профилям Spring: `jdbc`, `jpa`, `datajpa` (общее в профилях можно объединять, например `<beans profile="datajpa,jpa">`). Новые профили ортоганальны (независимы) от `postgres`, `hsqldb`.
+- 2 Разделить реализации Repository по профилям Spring: `jdbc`, `jpa`, `datajpa` (общее в профилях можно объединять, например `<beans profile="datajpa,jpa">`). Новые профили ортоганальны (независимы) от `postgres`, `hsqldb`. 
   - Для интеграции с IDEA не забудте выставить в `spring-db.xml` справа вверху в `Change Profiles...` профили, например `datajpa, postgres`
   - Общие части для всех в `spring-db.xml` можно оставить как есть без профилей, но до первого `<beans profile=` (вверху файла).
 - 3 Сделать тесты всех реализаций (`jdbc, jpa, datajpa`) через наследование (без дублирования), **сделать общий базовый класс для `MealServiceTest` и `UserServiceTest`**.
@@ -128,12 +138,12 @@
 
 #### Optional
 
-- 5 Починить `JdbcMealRepositoryImpl` (HSQLDB не умеет работать с Java8 Time API). Например разделить реализацию для HSQLDB и Postgres через `@Profile`.
+- 5 Починить `JdbcMealRepositoryImpl` для HSQLDB (она не умеет работать с Java8 Time API). Например разделить реализацию для HSQLDB и Postgres через `@Profile`. Бины Spring мы разделяем (фильтруем) по разным профилям с помощью `beans profile` в xml конфигурации и `@Profile` (те мы конфигурируем, какие бины попадут в контекст Spring в зависимости от активных профилей приложения). Абстрактные классы не создаются и в контекст не попадают. Профили, заданные в `@Profile` пересекаются с активными профилями приложения: если пересечение есть, то бин включается в контекст. См. реализацию `@Profile` и в ней `ProfileCondition` (можно подебажить).
 - 6 Починить `MealServlet` и использовать в `SpringMain` реализацию DB: добавить профили. Попробуйте поднять Spring контекст без использования `spring.profiles.activ`.
-- 7 Сделать и протестировать в сервисах методы
+- 7 Сделать и протестировать в сервисах методы (тесты только для `DataJpa` реализации)
   - 7.1  достать по id пользователя вместе с его едой
   - 7.2  достать по id еду вместе с пользователем
-  - Сделать реализацию только для `DataJpa`, обращения к DB сделать в одной транзакции (можно сделать разные варианты). 
+  - 7.3  cделать реализацию только для `DataJpa`, обращения к DB сделать в одной транзакции (можно сделать разные варианты). 
 
 <a href="https://en.wikibooks.org/wiki/Java_Persistence/OneToMany">Java Persistence/OneToMany</a>
 
@@ -143,5 +153,10 @@
 - В реализациях `JdbcMealRepository` **код не должен дублироваться**. Если вы возвращаете тип `Object`, посмотрите в сторону <a href="http://www.quizful.net/post/java-generics-tutorial">дженериков</a>.
 - В `MealServlet/SpringMain` в момент `setActiveProfiles` контекст спринга еще не должен быть инициализирован, иначе выставление профиля уже ничего не будет делать.
 - Если у метода нет реализации, то стандартно бросается `UnsupportedOperationException`.
-- Для уменьшения количества кода при реализации _Optional_ попробуйте сделать `default` метод в интерфейсе
+- Для уменьшения количества кода при реализации _Optional_ (п. 7.3) попробуйте сделать `default` метод в интерфейсе
 - В Data-Jpa метод для ссылки на entity (аналог `em.getReference`) : `T getOne(ID id)`
+- Проверьте, что в `DataJpaMealRepositoryImpl` все обращения к DB выполняются в **одной транзакции**
+- Для `достать по id пользователя вместе с его едой` я в `User` добавил `List<Meal> meals`
+- Проверьте, что все тесты запускаются из Maven (имена классов тестов удовлетворяют соглашению) и итоги тестов класса выводятся корректно (не копятся)
+- `@ActiveProfiles` принимает в качестве параметра строку, либо **массив** строк
+- В релизации 7.1 учесть, что у юзера может отсутствовать еда
